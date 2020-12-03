@@ -47,8 +47,9 @@ int main2() {
         while (getline(inputFile, line)) {
             sscanf(line.c_str(), "%d-%d %c: %s", &pos1, &pos2, &ch, pw);
 
-            if (pw[pos1 - 1] == ch ^ pw[pos2 - 1] == ch)
-                validCount++;
+            if(pos1 > 0 && pos1 < strlen(pw) + 1 && pos2 > pos1 && pos2 < strlen(pw) + 1) // Validate input positions
+                if (pw[pos1 - 1] == ch ^ pw[pos2 - 1] == ch)
+                    validCount++;
         }
 
         inputFile.close();
