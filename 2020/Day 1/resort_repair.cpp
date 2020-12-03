@@ -3,7 +3,8 @@
 #include <fstream>
 #include <string>
 
-#define NUMBER_TO_FIND 2020
+#define NUMBER_TO_FIND  2020
+#define INPUT_FILE      "input.txt"
 
 using namespace std;
 
@@ -24,7 +25,7 @@ vector<int> readFile(string fileName) {
 }
 
 int main1() {
-    vector<int> input = readFile("input.txt");
+    vector<int> input = readFile(INPUT_FILE);
 
     for(int n1 = 0; n1 < input.size(); n1++)
         for (int n2 = n1 + 1; n2 < input.size(); n2++)
