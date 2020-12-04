@@ -64,7 +64,7 @@ int main1() {
     return 0;
 }
 
-int main() {
+int main2() {
     vector<Passport> passports = getPassportsFromFile(INPUT_FILE);
 
     int validCount = 0;
