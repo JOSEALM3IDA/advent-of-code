@@ -32,11 +32,11 @@ struct Passport {
             return false;
 
         int len = hgt.length();
-        if (hgt[len - 2] == 'c' && hgt[len - 1] == 'm') { // cm
+        if (len == 5 && hgt.substr(len - 2) == "cm") { // cm
             int height = stoi(hgt.substr(0, 3));
             if (height < 150 || height > 193)
                 return false;
-        } else if (hgt[len - 2] == 'i' && hgt[len - 1] == 'n') { // in
+        } else if (len == 4 && hgt.substr(hgt.length() - 2) == "in") { // in
             int height = stoi(hgt.substr(0, 2));
             if (height < 59 || height > 76)
                 return false;
