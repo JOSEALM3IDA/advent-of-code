@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <chrono> // To measure execution time
 
 #include "passport.h"
 
@@ -64,7 +65,8 @@ int main1() {
     return 0;
 }
 
-int main2() {
+int main() {
+    auto start = chrono::high_resolution_clock::now();
     vector<Passport> passports = getPassportsFromFile(INPUT_FILE);
 
     int validCount = 0;
@@ -73,8 +75,8 @@ int main2() {
             validCount++;
         }
     }
-    
-    cout << "Valid passports: " << validCount << endl;
-    
+
+    auto finish = chrono::high_resolution_clock::now();
+    cout << "Valid passports: " << validCount << endl << endl << "Execution time: " << chrono::duration_cast<chrono::microseconds>(finish-start).count() << " microsec\n" << endl;
     return 0;
 }
