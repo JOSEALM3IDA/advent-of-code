@@ -13,6 +13,8 @@
         "system_error": "cpp",
         "xiosbase": "cpp",
         "sstream": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "xlocale": "cpp",
+        "cmath": "cpp"
     }
 }
