@@ -15,6 +15,7 @@
         "sstream": "cpp",
         "string": "cpp",
         "xlocale": "cpp",
-        "cmath": "cpp"
+        "cmath": "cpp",
+        "cstring": "cpp"
     }
 }
