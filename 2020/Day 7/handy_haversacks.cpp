@@ -82,7 +82,7 @@ int nBagsInside(string currentBag, const vector<string>& input ) {
                 int nBagsRaw = stoi(contain.substr(i, spaceNumPos - i)); // Number of bags inside currentBag, without counting the ones inside those
                 string bagToSearch = contain.substr(spaceNumPos + 1, spaceBagPos - spaceNumPos - 1);
                 
-                nBags += nBagsRaw + nBagsRaw * nBagsInside(bagToSearch, input);;
+                nBags += nBagsRaw + nBagsRaw * nBagsInside(bagToSearch, input);
 
                 i = spaceNumPos;
             }

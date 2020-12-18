@@ -65,7 +65,7 @@ int main1() {
     return 0;
 }
 
-int main() {
+int main2() {
     auto start = chrono::high_resolution_clock::now();
     vector<Passport> passports = getPassportsFromFile(INPUT_FILE);
 
