@@ -65,7 +65,7 @@ int main1()
 /* =================================================================== */
 
 /* ============================ PROBLEM 2 ============================ */
-int main() // Solution potentially works but takes way too much time (5h +). Should've used Chinese Remainder Theorem
+int main() // Solution potentially works but takes way too much time (10h +). Should've used Chinese Remainder Theorem
 { 
     auto start = std::chrono::high_resolution_clock::now();
     std::ifstream inputFile(INPUT_FILE);
