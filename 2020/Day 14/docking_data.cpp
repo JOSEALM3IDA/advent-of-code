@@ -79,7 +79,7 @@ void getPossibilities(std::vector<unsigned long long> &rtn, std::string maskedAd
     getPossibilities(rtn, maskedAddr);
 }
 
-int main()
+int main2()
 {
     std::ifstream inputFile(INPUT_FILE);
     if (!inputFile.is_open()) {
