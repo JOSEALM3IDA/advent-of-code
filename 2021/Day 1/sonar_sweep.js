@@ -5,7 +5,8 @@ fs.readFile(__dirname + "/input.txt", (error, data) => {
     }
     
     const lines = data.toString().split("\r\n").map(Number);
-    console.log(countDepthWindowIncreases(lines, 3)); // First puzzle: Window Size 1    Second Puzzle: Window Size 3
+    console.log("Part 1: " + countDepthWindowIncreases(lines, 1));
+    console.log("Part 2: " + countDepthWindowIncreases(lines, 3));
 });
 
 function countDepthWindowIncreases(lines, windowSize) {
