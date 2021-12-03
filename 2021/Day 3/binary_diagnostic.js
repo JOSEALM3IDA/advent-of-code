@@ -15,19 +15,16 @@ function updateBitCountMap(lines) {
         let line = lines[i];
         for (let j = 0; j < line.length; j++) {
             let currCount = bitCountMap.get(j);
-            if (lines[i].charAt(j) != '1') {
-                if (currCount == undefined) {
-                    bitCountMap.set(j, 0);
-                }
+            if (line.charAt(j) == '1') {
+                bitCountMap.set(j, currCount == undefined ? 1 : currCount + 1);
                 continue;
             }
 
-            bitCountMap.set(j, currCount == undefined ? 1 : currCount + 1);
+            if (currCount == undefined) bitCountMap.set(j, 0);
         } 
     }
 
-    bitCountMap = new Map([...bitCountMap.entries()].sort((a,b) => a - b));
-    return bitCountMap;
+    return new Map([...bitCountMap.entries()].sort((a,b) => a - b));
 }
 
 function calculatePowerConsumption(lines) {
@@ -51,30 +48,25 @@ function calculatePowerConsumption(lines) {
     return gamma * epsilon;
 }
 
-function calculateLifeSupport(lines) {
-    let filteredLines = lines;
+function filterLinesToSingleLine(lines, charToPrioritize, charElse) {
+    const compareBiggerOrEqual = (val1, val2, retIfTrue, retElse) => { return val1 < val2 ? retIfTrue : retElse; }
+
     let i = 0;
+    let filteredLines = lines;
     while (filteredLines.length > 1) {
         let bitCountMap = updateBitCountMap(filteredLines);
 
-        let mostPresentBit = bitCountMap.get(i) < filteredLines.length / 2 ? '0' : '1';
+        let mostPresentBit = compareBiggerOrEqual(bitCountMap.get(i), filteredLines.length / 2, charToPrioritize, charElse);
         filteredLines = filteredLines.filter(item => item.charAt(i) == mostPresentBit);
         i++;
     }
 
-    let oxygenBinary = filteredLines[0];
+    return filteredLines[0];
+}
 
-    filteredLines = lines;
-    i = 0;
-    while (filteredLines.length > 1) {
-        let bitCountMap = updateBitCountMap(filteredLines);
-
-        let mostPresentBit = bitCountMap.get(i) >= filteredLines.length / 2 ? '0' : '1';
-        filteredLines = filteredLines.filter(item => item.charAt(i) == mostPresentBit);
-        i++;
-    }
-
-    let co2Binary = filteredLines[0];;
+function calculateLifeSupport(lines) {
+    let oxygenBinary = filterLinesToSingleLine(lines, '1', '0');
+    let co2Binary = filterLinesToSingleLine(lines, '0', '1');
 
     let oxygen = parseInt(oxygenBinary, 2);
     let co2 = parseInt(co2Binary, 2);
