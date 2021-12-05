@@ -19,8 +19,8 @@ fs.readFile(__dirname + "/input.txt", (error, data) => {
 
     if (currBoard.length != 0) boardArray.push(currBoard);
 
-    console.log(getFirstWinnerBingo(drawOrder, boardArray));
-    console.log(getLastWinnerBingo(drawOrder, boardArray));
+    console.log("Part 1: " + getFirstWinnerBingo(drawOrder, boardArray));
+    console.log("Part 2: " + getLastWinnerBingo(drawOrder, boardArray));
 });
 
 function checkArray(array) {
