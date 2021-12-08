@@ -40,17 +40,7 @@ fs.readFile(__dirname + "/input.txt", (error, data) => {
 });
 
 function getAmountUniqueDigits(lines) {
-    let amount = 0;
-    for (let i = 0; i < lines.length; i++) {
-        const currOutput = lines[i].split(" | ")[1];
-        const individualOutputs = currOutput.split(" ");
-        for (let j = 0; j < individualOutputs.length; j++) {
-            const indLen = individualOutputs[j].length;
-            if (indLen == SEGS_1.length || indLen == SEGS_4.length || indLen == SEGS_7.length || indLen == SEGS_8.length) amount++;
-        }
-    }
-    
-    return amount;
+    return lines.reduce((totalAmount, currLine) => totalAmount += currLine.split(" | ")[1].split(" ").filter(output => output.length == SEGS_1.length || output.length == SEGS_4.length || output.length == SEGS_7.length || output.length == SEGS_8.length).length, 0);
 }
 
 function strIntersection(str1, str2) {
@@ -95,10 +85,8 @@ function decodeLine(line) {
     const digit2 = inputDigits.filter(segments => segments.length == 5 && segments.includes(segA) && segments.includes(segC) && segments.includes(segD) && segments.includes(segE) && segments.includes(segG))[0];
     const digit6 = inputDigits.filter(segments => segments.length == 6 && segments.includes(segA) && segments.includes(segB) && segments.includes(segD) && segments.includes(segE) && segments.includes(segF) && segments.includes(segG))[0];
 
-
-    const digitStrings = [digit0, digit1, digit2, digit3, digit4, digit5, digit6, digit7, digit8, digit9];
-
     let encodedNumber = 0;
+    const digitStrings = [digit0, digit1, digit2, digit3, digit4, digit5, digit6, digit7, digit8, digit9];
     for (let i = 0; i < outputDigits.length; i++) {
         encodedNumber *= 10;
         for (let n = 0; n < digitStrings.length; n++) {
