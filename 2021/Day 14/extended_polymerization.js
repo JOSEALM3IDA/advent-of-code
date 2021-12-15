@@ -1,4 +1,3 @@
-const { CONNREFUSED } = require('dns');
 var fs = require('fs');
 fs.readFile(__dirname + "/input.txt", (error, data) => {
     if (error) throw error;
