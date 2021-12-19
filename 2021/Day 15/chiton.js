@@ -3,7 +3,6 @@ let NUM_ROWS = 0;
 let caveMatrix = [];
 
 var fs = require('fs');
-const { start } = require('repl');
 fs.readFile(__dirname + "/input.txt", (error, data) => {
     if (error) throw error;
     
