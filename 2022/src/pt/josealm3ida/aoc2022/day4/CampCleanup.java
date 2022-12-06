@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class CampCleanup {
 
-    public static final String filePath = "src/pt/josealm3ida/aoc2022/day4/input.txt";
+    public static final String FILE_PATH = "src/pt/josealm3ida/aoc2022/day4/input.txt";
 
     public static boolean isContained(int[] range1, int[] range2) {
         return range1[0] <= range2[0] && range1[1] >= range2[1];
@@ -49,7 +49,7 @@ public class CampCleanup {
     }
 
     public static void main(String[] args) throws IOException {
-        String[] input = FileReaderUtils.linesToArray(filePath);
+        String[] input = FileReaderUtils.linesToArray(FILE_PATH);
 
         System.out.println("Num of pairs with contained ranges: " + getNContainedRanges(input));
         System.out.println("Num of pairs with overlapping ranges: " + getNOverlappedRanges(input));

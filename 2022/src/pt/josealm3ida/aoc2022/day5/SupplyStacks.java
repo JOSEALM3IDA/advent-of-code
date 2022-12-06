@@ -7,7 +7,7 @@ import java.util.*;
 
 public class SupplyStacks {
 
-    public static final String filePath = "src/pt/josealm3ida/aoc2022/day5/input.txt";
+    public static final String FILE_PATH = "src/pt/josealm3ida/aoc2022/day5/input.txt";
 
     public static List<Stack<Character>> getStacks(List<String> stackStrings, int nStacks) {
         List<Stack<Character>> stackList = new ArrayList<>();
@@ -78,7 +78,7 @@ public class SupplyStacks {
 
 
     public static void main(String[] args) throws IOException {
-        String[] input = FileReaderUtils.linesToArray(filePath);
+        String[] input = FileReaderUtils.linesToArray(FILE_PATH);
 
         System.out.println("Crates on top (CrateMover 9000): " + getTopCrates(input, false));
         System.out.println("Crates on top (CrateMover 9001): " + getTopCrates(input, true));

@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class RockPaperScissors {
 
-    public static final String filePath = "src/pt/josealm3ida/aoc2022/day2/input.txt";
+    public static final String FILE_PATH = "src/pt/josealm3ida/aoc2022/day2/input.txt";
 
     public static final int POINTS_LOSS = 0;
     public static final int POINTS_DRAW = 3;
@@ -92,7 +92,7 @@ public class RockPaperScissors {
     }
 
     public static void main(String[] args) throws IOException {
-        String[] input = FileReaderUtils.linesToArray(filePath);
+        String[] input = FileReaderUtils.linesToArray(FILE_PATH);
 
         System.out.println("Total points for strategy (part 1): " + getTotalPoints1(input));
         System.out.println("Total points for strategy (part 2): " + getTotalPoints2(input));

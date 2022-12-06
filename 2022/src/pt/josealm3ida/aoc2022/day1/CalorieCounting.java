@@ -9,7 +9,7 @@ import java.util.List;
 
 public class CalorieCounting {
 
-    public static final String filePath = "src/pt/josealm3ida/aoc2022/day1/input.txt";
+    public static final String FILE_PATH = "src/pt/josealm3ida/aoc2022/day1/input.txt";
 
     public static int getNGreatestSum(String[] input, int n) {
         List<Integer> allElves = new ArrayList<>();
@@ -29,7 +29,7 @@ public class CalorieCounting {
     }
 
     public static void main(String[] args) throws IOException {
-        String[] input = FileReaderUtils.linesToArray(filePath);
+        String[] input = FileReaderUtils.linesToArray(FILE_PATH);
 
         System.out.println("Top elf: " + getNGreatestSum(input, 1));
         System.out.println("Top 3 elves: " + getNGreatestSum(input, 3));
