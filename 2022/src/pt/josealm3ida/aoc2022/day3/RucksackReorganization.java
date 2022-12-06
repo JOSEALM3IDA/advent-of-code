@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class RucksackReorganization {
 
-    public static final String filePath = "src/pt/josealm3ida/aoc2022/day3/input.txt";
+    public static final String FILE_PATH = "src/pt/josealm3ida/aoc2022/day3/input.txt";
 
     public static int getItemPriority(char item) {
         return (int) item - (Character.isLowerCase(item) ? 96 : 38);
@@ -52,7 +52,7 @@ public class RucksackReorganization {
     }
 
     public static void main(String[] args) throws IOException {
-        String[] input = FileReaderUtils.linesToArray(filePath);
+        String[] input = FileReaderUtils.linesToArray(FILE_PATH);
 
         System.out.println("Priority sum of common compartment items: " + getSumAllPriorities1(input));
         System.out.println("Priority sum of item badges: " + getSumAllPriorities2(input));
