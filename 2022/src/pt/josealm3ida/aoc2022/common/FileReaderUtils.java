@@ -21,4 +21,20 @@ public class FileReaderUtils {
 
         return lines.toArray(new String[0]);
     }
+
+    public static char[][] linesToCharMatrix(String fileName) throws IOException {
+        Reader fileReader = new FileReader(fileName);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+        List<char[]> lines = new ArrayList<>();
+        String line;
+
+        while ((line = bufferedReader.readLine()) != null) {
+            lines.add(line.toCharArray());
+        }
+
+        bufferedReader.close();
+
+        return lines.toArray(new char[0][0]);
+    }
 }
