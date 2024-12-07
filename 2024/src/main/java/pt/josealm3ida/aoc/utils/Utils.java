@@ -28,4 +28,16 @@ public class Utils {
 
         return lines;
     } 
+
+    public static List<List<Character>> readCharacters(final String filename) {
+		List<String> lines = readLines(filename);
+
+		List<List<Character>> charLists = new ArrayList<>();
+
+        lines.forEach(l -> {
+			charLists.add(new ArrayList<>(l.chars().mapToObj(c -> (char) c).toList()));
+        });
+
+		return charLists;
+    }
 }
