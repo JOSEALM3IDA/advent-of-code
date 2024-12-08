@@ -40,4 +40,11 @@ public class Utils {
 
 		return charLists;
     }
+
+	public static Character[][] readCharactersAsArray(final String filename) {
+		return readCharacters(filename).stream()
+			.map(l -> l.stream().toArray(Character[]::new))
+			.toArray(Character[][]::new);
+	}
+
 }

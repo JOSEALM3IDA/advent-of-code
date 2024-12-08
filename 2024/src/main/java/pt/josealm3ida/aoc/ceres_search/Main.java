@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import pt.josealm3ida.aoc.utils.Utils;
+import pt.josealm3ida.aoc.utils.Coord;
 
 public class Main {
 

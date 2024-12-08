@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import pt.josealm3ida.aoc.utils.Coord;
 import pt.josealm3ida.aoc.utils.Utils;
 
 public class Main {
