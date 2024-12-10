@@ -9,6 +9,7 @@ import java.util.Set;
 
 import pt.josealm3ida.aoc.utils.Utils;
 import pt.josealm3ida.aoc.utils.Coord;
+import pt.josealm3ida.aoc.utils.Direction;
 
 public class Main {
 

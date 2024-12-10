@@ -1,6 +1,6 @@
-package pt.josealm3ida.aoc.ceres_search;
+package pt.josealm3ida.aoc.utils;
 
-enum Direction {
+public enum Direction {
     LEFT(0, -1),
     DOWN(1, 0),
     UP(-1, 0),
