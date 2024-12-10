@@ -49,13 +49,7 @@ public class Main {
         for (int j = getNextFile(drive, defraggedDrive.size()); j != -1; j = getNextFile(defraggedDrive, j)) {
             DriveSpace src = defraggedDrive.get(j);
 
-            int i = -1;
-            while (true) {
-                i = getNextEmptySpace(defraggedDrive, i);
-                if (i == -1 || i >= j) {
-                    break;
-                }
-
+            for (int i = getNextEmptySpace(defraggedDrive, -1); i != -1 && i < j; i = getNextEmptySpace(defraggedDrive, i)) {
                 DriveSpace dest = defraggedDrive.get(i);
 
                 int sizeDifference = dest.size() - src.size();
