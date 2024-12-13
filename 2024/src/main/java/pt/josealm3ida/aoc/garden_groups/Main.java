@@ -103,7 +103,7 @@ public class Main {
             List<Coord> validNeighbors = getValidNeighbors(tempGarden, curr);
             validNeighbors.forEach(p -> toVisit.push(p));
 
-            tempGarden.get(curr.i()).set(curr.j(), tempChar);
+            tempGarden.get(curr.x()).set(curr.y(), tempChar);
         }
 
         return parseGroup(tempGarden, tempChar);
@@ -112,15 +112,15 @@ public class Main {
     private static List<Coord> getValidNeighbors(final List<List<Character>> garden, Coord curr) {
         List<Coord> validNeighbors = new ArrayList<>();
 
-        Character currType = garden.get(curr.i()).get(curr.j());
+        Character currType = garden.get(curr.x()).get(curr.y());
 
         for (Direction d : Direction.values()) {
             if (d.isDiagonal()) {
                 continue;
             }
 
-            int nexti = d.calcNextRow(curr.i());
-            int nextj = d.calcNextCol(curr.j());
+            int nexti = d.calcNextRow(curr.x());
+            int nextj = d.calcNextCol(curr.y());
 
             boolean outOfBounds = nexti < 0 || nexti >= garden.size() || nextj < 0 || nextj >= garden.get(nexti).size();
 

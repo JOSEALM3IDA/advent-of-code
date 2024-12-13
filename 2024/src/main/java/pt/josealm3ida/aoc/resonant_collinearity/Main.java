@@ -39,8 +39,8 @@ public class Main {
         for (Antenna a : allAntennas) {
             Set<Antenna> inLineAntennas = getInLineAntennas(allAntennas, a);
             for (Antenna b : inLineAntennas) {
-                int diffi = b.coord().i() - a.coord().i();
-                int diffj = b.coord().j() - a.coord().j();
+                int diffi = b.coord().x() - a.coord().x();
+                int diffj = b.coord().y() - a.coord().y();
 
                 // Hack for part1 to still work with this code
                 if (!anyDistance) {
@@ -51,10 +51,10 @@ public class Main {
                 Coord currPoint = a.coord();
                 boolean outOfBounds;
                 do {
-                    Coord possibleAntinode = new Coord(currPoint.i() + diffi, currPoint.j() + diffj);
+                    Coord possibleAntinode = new Coord(currPoint.x() + diffi, currPoint.y() + diffj);
 
-                    outOfBounds = possibleAntinode.i() < 0 || possibleAntinode.i() > edge.i();
-                    outOfBounds = outOfBounds || possibleAntinode.j() < 0 || possibleAntinode.j() > edge.j();
+                    outOfBounds = possibleAntinode.x() < 0 || possibleAntinode.x() > edge.x();
+                    outOfBounds = outOfBounds || possibleAntinode.y() < 0 || possibleAntinode.y() > edge.y();
 
                     if (!outOfBounds) {
                         antinodes.add(possibleAntinode);

@@ -87,8 +87,8 @@ public class Main {
                 continue;
             }
 
-            int nexti = d.calcNextRow(currCoord.i());
-            int nextj = d.calcNextCol(currCoord.j());
+            int nexti = d.calcNextRow(currCoord.x());
+            int nextj = d.calcNextCol(currCoord.y());
 
             boolean outOfBounds = nexti < 0 || nexti >= topographicMap.size() || nextj < 0 || nextj >= topographicMap.get(nexti).size();
 
@@ -121,7 +121,7 @@ public class Main {
         for (CoordPath coordPath : paths) {
             List<Coord> pathTo = coordPath.pathTo(); 
             for (Coord c : pathTo) {
-                printMap.get(c.i()).set(c.j(), Character.forDigit(topographicMap.get(c.i()).get(c.j()), 10));
+                printMap.get(c.x()).set(c.y(), Character.forDigit(topographicMap.get(c.x()).get(c.y()), 10));
             }
         }
 

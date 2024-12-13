@@ -22,7 +22,7 @@ public class Main {
         prettyPrintMap(map);
 
         Coord guardStartingPosition = getGuardPosition(map);
-        Character guardStartingOrientation = map[guardStartingPosition.i()][guardStartingPosition.j()];
+        Character guardStartingOrientation = map[guardStartingPosition.x()][guardStartingPosition.y()];
         Map<Coord, List<Character>> walkedMap = new HashMap<>();
 
         System.out.println(part1(deepCopyArray(map), walkedMap, guardStartingPosition));
@@ -42,7 +42,7 @@ public class Main {
             if (c == guardStartingPosition) continue;
 
             Character[][] newMap = deepCopyArray(map);
-            newMap[c.i()][c.j()] = 'O';
+            newMap[c.x()][c.y()] = 'O';
 
             Map<Coord, List<Character>> newWalkedMap = new HashMap<>();
             if (walkUntilDone(newMap, newWalkedMap, guardStartingPosition) == DoneReason.LOOP) {
@@ -57,7 +57,7 @@ public class Main {
         Coord guardCurrPosition = guardStartingPosition;
         while (true) {
             guardCurrPosition = walk(map, walkedMap, guardCurrPosition);
-            if (guardCurrPosition == null || guardCurrPosition.i() == -1) {
+            if (guardCurrPosition == null || guardCurrPosition.x() == -1) {
                 break;
             }
         }
@@ -66,8 +66,8 @@ public class Main {
     }
 
     private static Coord walk(Character[][] map, Map<Coord, List<Character>> walkedMap, Coord guardPosition) {
-        int i = guardPosition.i();
-        int j = guardPosition.j();
+        int i = guardPosition.x();
+        int j = guardPosition.y();
 
         int nexti = i;
         int nextj = j;
