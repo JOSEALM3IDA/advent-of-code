@@ -2,8 +2,6 @@ package pt.josealm3ida.aoc.claw_contraption;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import pt.josealm3ida.aoc.utils.Coord;
 import pt.josealm3ida.aoc.utils.Utils;
@@ -19,16 +17,9 @@ public class Main {
     private static List<Machine> parseMachines(List<String> lines) {
         List<Machine> machines = new ArrayList<>();
 
-        Pattern pattern = Pattern.compile("\\d+");
-
         for (int i = 0; i < lines.size(); i += 4) {
             String machineStr = lines.get(i) + lines.get(i + 1) + lines.get(i + 2);
-            Matcher matcher = pattern.matcher(machineStr);
-            List<Integer> ns = new ArrayList<>();
-            while (matcher.find()) {
-                ns.add(Integer.parseInt(matcher.group()));
-            }
-
+            List<Integer> ns = Utils.readAllIntegersInString(machineStr);
             machines.add(new Machine(new Coord(ns.get(0), ns.get(1)), new Coord(ns.get(2), ns.get(3)), new Coord(ns.get(4), ns.get(5))));
         }
 

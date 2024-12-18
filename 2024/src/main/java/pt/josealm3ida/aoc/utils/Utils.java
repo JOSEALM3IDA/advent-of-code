@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Utils {
 
@@ -45,6 +47,18 @@ public class Utils {
 		return readCharacters(filename).stream()
 			.map(l -> l.stream().toArray(Character[]::new))
 			.toArray(Character[][]::new);
+	}
+
+	public static List<Integer> readAllIntegersInString(String s) {
+        Pattern pattern = Pattern.compile("\\d+");
+
+		Matcher matcher = pattern.matcher(s);
+		List<Integer> ints = new ArrayList<>();
+		while (matcher.find()) {
+			ints.add(Integer.parseInt(matcher.group()));
+		}
+
+		return ints;
 	}
 
 }
