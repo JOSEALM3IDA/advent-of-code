@@ -50,7 +50,7 @@ public class Utils {
 	}
 
 	public static List<Integer> readAllIntegersInString(String s) {
-        Pattern pattern = Pattern.compile("\\d+");
+        Pattern pattern = Pattern.compile("-?\\d+");
 
 		Matcher matcher = pattern.matcher(s);
 		List<Integer> ints = new ArrayList<>();
