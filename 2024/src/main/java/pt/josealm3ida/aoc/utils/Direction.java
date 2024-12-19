@@ -34,6 +34,19 @@ public enum Direction {
         return currCol + nTimes * changeHorizontal;
     }
 
+    public Direction getOpposite() {
+        return switch (this) {
+            case LEFT -> RIGHT;
+            case DOWN -> UP;
+            case UP -> DOWN;
+            case RIGHT -> LEFT;
+            case LEFT_DOWN -> RIGHT_UP;
+            case LEFT_UP -> RIGHT_DOWN;
+            case RIGHT_DOWN -> LEFT_UP;
+            case RIGHT_UP -> LEFT_DOWN;
+        };
+    }
+
     public boolean isDiagonal() {
         return switch (this) {
             case LEFT_DOWN, LEFT_UP, RIGHT_DOWN, RIGHT_UP -> true;
