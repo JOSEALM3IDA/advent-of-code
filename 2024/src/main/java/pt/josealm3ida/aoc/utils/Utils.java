@@ -61,4 +61,14 @@ public class Utils {
 		return ints;
 	}
 
+	public static <T> List<List<T>> deepCopyArray(final List<List<T>> array) {
+		List<List<T>> arrayCopy = new ArrayList<>();
+
+		for (List<T> list : array) {
+			arrayCopy.add(new ArrayList<>(list));
+		}
+
+		return arrayCopy;
+	}
+
 }

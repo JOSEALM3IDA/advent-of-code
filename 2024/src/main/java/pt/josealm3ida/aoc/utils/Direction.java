@@ -40,4 +40,19 @@ public enum Direction {
             default -> false;
         };
     }
+
+    public boolean isVertical() {
+        return switch (this) {
+            case UP, DOWN -> true;
+            default -> false;
+        };
+    }
+
+    public boolean isHorizontal() {
+        return switch (this) {
+            case LEFT, RIGHT -> true;
+            default -> false;
+        };
+    }
+
 }
