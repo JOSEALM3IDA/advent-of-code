@@ -28,13 +28,22 @@ public class Main {
     }
 
     private static String part2(List<Coord> bytes) {
+        MazePath lastPath = null;
         for (int i = DRAW_AFTER_N_BYTES; i < bytes.size(); i++) {
             Coord currByte = bytes.get(i - 1);
+
+            // If we have a solution and byte doesn't fall on path, we can be sure solution is still good
+            if (lastPath != null && !lastPath.getPath().contains(currByte)) {
+                continue;
+            }
+
             MazePath path = aStar(bytes.subList(0, i));
 
             if (path == null) {
                 return "%s,%s".formatted(currByte.x(), currByte.y());
             }
+
+            lastPath = path;
         }
 
         return "-1,-1";
