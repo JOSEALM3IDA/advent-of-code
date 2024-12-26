@@ -13,77 +13,83 @@ import pt.josealm3ida.aoc.utils.Utils;
 
 public class Main {
 
-    private static final List<List<Character>> NUMERIC_KEY_PAD = List.of(
-        List.of('7', '8' , '9'),
-        List.of('4', '5' , '6'),
+    private static final int NUM_DIRECTIONAL_KEYPADS_PT1 = 2;
+    private static final int NUM_DIRECTIONAL_KEYPADS_PT2 = 25;
+
+    private static final List<List<Character>> KEYPAD = List.of(
+        List.of('#', '0' , '.'),
         List.of('1', '2' , '3'),
-        List.of('#', '0' , '.')
+        List.of('4', '5' , '6'),
+        List.of('7', '8' , '9')
     );
 
     public static void main(String[] args) {
-        List<List<Character>> codes = Utils.readCharacters("input/keypad-conundrum.txt");
+        List<Code> codes = Utils.readLines("input/keypad-conundrum.txt").stream().map(s -> Code.from(s)).toList();
 
         System.out.println(part1(codes));
+        System.out.println(part2(codes));
     }
 
-    private static int part1(List<List<Character>> codes) {
-        int totalComplexity = 0;
-        for (List<Character> code : codes) {
-            List<Sequence> directions = getShortestSequences(code.stream().map(Main::keyToInt).toList());
-    
-            for (int i = 0; i < 2; i++) {
-                List<Sequence> newDirections = new ArrayList<>();
-                for (Sequence prevRobotDirections : directions) {
-                    List<Integer> newCode = prevRobotDirections.toString().chars().mapToObj(c -> (char) c).map(Main::keyToInt).toList();
-                    List<Sequence> newSequences = getShortestSequences(newCode).stream().map(s -> 
-                        new Sequence(s.seq().stream().map(d -> {
-                            if (d == null) {
-                                return d;
-                            }
+    private static long part1(List<Code> codes) {
+        return calculateComplexity(codes, NUM_DIRECTIONAL_KEYPADS_PT1);
+    }
 
-                            return switch (d) {
-                                case Direction.UP -> Direction.DOWN;
-                                case Direction.DOWN -> Direction.UP;
-                                default -> d;
-                            };
-                        }).toList())
-                    ).toList();
+    private static long part2(List<Code> codes) {
+        return calculateComplexity(codes, NUM_DIRECTIONAL_KEYPADS_PT2);
+    }
 
-                    newDirections.addAll(newSequences);
+    private static long calculateComplexity(List<Code> codes, int numDirectionalKeypads) {
+        long totalComplexity = 0;
+
+        Map<List<Integer>, Long> lengthMap = new HashMap<>();
+        for (Code code : codes) {
+            List<Sequence> directions = getShortestSequences(code).stream()
+                .map(s -> new Sequence(s.seq().stream().map(d -> {
+                        if (d == null) {
+                            return d;
+                        }
+
+                        return switch (d) {
+                            case Direction.UP -> Direction.DOWN;
+                            case Direction.DOWN -> Direction.UP;
+                            default -> d;
+                        };
+                    }).toList())
+                ).toList();
+
+            long optimal = Long.MAX_VALUE;
+            for (Sequence s : directions) {
+                long len = 0;
+                Code subCode = Code.from(s);
+                int prevKey = -1;
+                for (int i = 0; i < subCode.cod().size(); i++) {
+                    int currKey = subCode.cod().get(i); 
+                    len += compute(lengthMap, prevKey, currKey, numDirectionalKeypads); 
+
+                    prevKey = currKey;
                 }
 
-                directions = newDirections;
+                optimal = Math.min(optimal, len);
             }
-
-            int shortestSize = Integer.MAX_VALUE;
-
-            for (Sequence finalDirections : directions) {
-                int currSize = finalDirections.seq().size();
-                shortestSize = currSize < shortestSize ? currSize : shortestSize;
-            }
-
-            final int ss = shortestSize;
-            directions.removeIf(s -> s.seq().size() > ss);
 
             StringBuilder sb = new StringBuilder();
-            for (Character ch : code.subList(0, code.size() - 1)) {
-                sb.append(ch);
+            for (int nr : code.cod().subList(0, code.cod().size() - 1)) {
+                sb.append(nr);
             }
-            
-            totalComplexity += shortestSize * Integer.valueOf(sb.toString());
-            System.out.println(totalComplexity);
+
+            totalComplexity += optimal * Integer.valueOf(sb.toString());
         }
 
         return totalComplexity;
     }
 
-	private static List<Sequence> getShortestSequences(List<Integer> code) {
+	private static List<Sequence> getShortestSequences(Code code) {
         List<Sequence> sequences = new ArrayList<>();
         sequences.add(new Sequence(Collections.emptyList()));
 
         int prevKey = -1;
-        for (int i = 0; i < code.size(); i++) {
-            int nextKey = code.get(i);
+        for (int i = 0; i < code.cod().size(); i++) {
+            int nextKey = code.cod().get(i);
 
             List<Sequence> shortestPaths = getShortestPathsToKey(prevKey, nextKey);
             List<Sequence> newSequences = new ArrayList<>();
@@ -92,7 +98,6 @@ public class Main {
                 sequences.forEach(s -> {
                     Sequence newS = new Sequence(new ArrayList<>(s.seq()));
                     newS.seq().addAll(path.seq());
-                    newS.seq().add(null);
 
                     newSequences.add(newS);
                 });
@@ -110,7 +115,45 @@ public class Main {
         return sequences;
 	}
 
-    // if part 2 doesnt work, could mean that I need all paths, not just shortest (due to optimizations some robots up)
+    private static long compute(Map<List<Integer>, Long> lengthMap, int startingKey, int endKey, int depth) {
+        List<Integer> key = List.of(startingKey, endKey, depth);
+        if (lengthMap.containsKey(key)) {
+            return lengthMap.get(key);
+        }
+
+        List<Sequence> paths = getShortestPathsToKey(startingKey, endKey);
+
+        if (depth == 1) {
+            return (long) paths.get(0).seq().size();
+        }
+
+        if (paths.isEmpty()) {
+            return 1l;
+        }
+
+        long optimal = Long.MAX_VALUE;
+        for (Sequence path : paths) {
+            if (path.seq().size() == 1) {
+                return 1l;
+            }
+
+            long len = 0;
+            Code code = Code.from(path);
+            int prevKey = -1;
+            for (int i = 0; i < code.cod().size(); i++) {
+                int currKey = code.cod().get(i); 
+                len += compute(lengthMap, prevKey, currKey, depth - 1);
+
+                prevKey = currKey;
+            }
+
+            optimal = Math.min(optimal, len);
+        }
+        
+        lengthMap.put(key, optimal);
+        return optimal;
+    }
+
     private static List<Sequence> getShortestPathsToKey(int startingKey, int endKey) {
         List<List<Coord>> shortestPaths = aStar(keyToCoord(startingKey), keyToCoord(endKey)).stream().map(MazePath::getPath).toList();
 
@@ -118,7 +161,9 @@ public class Main {
 
         for (List<Coord> shortestPath : shortestPaths) {
             if (shortestPath.size() == 1) {
-                return Collections.emptyList();
+                List<Direction> emptyDirections = new ArrayList<>();
+                emptyDirections.add(null);
+                return List.of(new Sequence(emptyDirections));
             }
 
             List<Direction> directionPath = new ArrayList<>();
@@ -140,22 +185,11 @@ public class Main {
                 }
             }
 
+            directionPath.add(null);
             directionPaths.add(new Sequence(directionPath));
         }
 
         return directionPaths;
-    }
-
-    private static int keyToInt(Character key) {
-        return switch(key) {
-            case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' -> Character.digit(key, 10);
-            case '<' -> 1;
-            case '^' -> 0;
-            case 'v' -> 2;
-            case '>' -> 3;
-            case 'A' -> -1;
-            default -> -2;
-        };
     }
 
     private static Coord keyToCoord(int key) {
@@ -167,10 +201,10 @@ public class Main {
         };
         
         int y = switch (key) {
-            case 7, 8, 9 -> 0;
-            case 4, 5, 6 -> 1;
-            case 1, 2, 3 -> 2;
-            case 0, -1 -> 3;
+            case 0, -1 -> 0;
+            case 1, 2, 3 -> 1;
+            case 4, 5, 6 -> 2;
+            case 7, 8, 9 -> 3;
             default -> -1;
         };
 
@@ -234,9 +268,9 @@ public class Main {
             }
 
             Coord neighbor = new Coord(d.calcNextCol(c.x()), d.calcNextRow(c.y()));
-            if (neighbor.x() >= NUMERIC_KEY_PAD.get(0).size() || neighbor.x() < 0
-                || neighbor.y() >= NUMERIC_KEY_PAD.size() || neighbor.y() < 0
-                || NUMERIC_KEY_PAD.get(neighbor.y()).get(neighbor.x()).equals('#')
+            if (neighbor.x() >= KEYPAD.get(0).size() || neighbor.x() < 0
+                || neighbor.y() >= KEYPAD.size() || neighbor.y() < 0
+                || KEYPAD.get(neighbor.y()).get(neighbor.x()).equals('#')
             ) {
                 continue;
             }
@@ -245,6 +279,30 @@ public class Main {
         }
 
         return neighbors;
+    }
+
+    private record Code(List<Integer> cod) {
+
+        public static Code from(String s) {
+            return new Code(s.chars().mapToObj(c -> (char) c).map(c -> keyFromChar(c)).toList());
+        }
+
+        public static Code from(Sequence s) {
+            return new Code(s.seq().stream().map(Main::directionAsCharacter).map(Code::keyFromChar).toList());
+        }
+
+        private static int keyFromChar(char c) {
+            return switch(c) {
+                case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' -> Character.digit(c, 10);
+                case '<' -> 1;
+                case '^' -> 0;
+                case 'v' -> 2;
+                case '>' -> 3;
+                case 'A' -> -1;
+                default -> -2;
+            };
+        }
+
     }
 
     private record Sequence(List<Direction> seq) {
