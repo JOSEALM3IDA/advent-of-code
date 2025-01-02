@@ -32,8 +32,16 @@ public class Utils {
     } 
 
     public static List<List<Character>> readCharacters(final String filename) {
-		List<String> lines = readLines(filename);
+		return readCharactersFromStringList(readLines(filename));
+	}
 
+	public static Character[][] readCharactersAsArray(final String filename) {
+		return readCharacters(filename).stream()
+			.map(l -> l.stream().toArray(Character[]::new))
+			.toArray(Character[][]::new);
+	}
+
+	public static List<List<Character>> readCharactersFromStringList(final List<String> lines) {
 		List<List<Character>> charLists = new ArrayList<>();
 
         lines.forEach(l -> {
@@ -41,12 +49,7 @@ public class Utils {
         });
 
 		return charLists;
-    }
 
-	public static Character[][] readCharactersAsArray(final String filename) {
-		return readCharacters(filename).stream()
-			.map(l -> l.stream().toArray(Character[]::new))
-			.toArray(Character[][]::new);
 	}
 
 	public static List<Integer> readAllIntegersInString(String s) {
